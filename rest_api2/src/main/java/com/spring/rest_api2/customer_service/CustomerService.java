@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.rest_api2.exception.UserNotFoundException;
 import com.spring.rest_api2.modal.Customer;
 
 import jakarta.annotation.PostConstruct;
@@ -41,7 +42,9 @@ public class CustomerService {
         try {
             customer=customers.stream().filter(i->i.getCustomerId()==id).findFirst().get();
         } catch (Exception e) {
-            System.out.println(e.getClass().getSimpleName());
+            if(e.getClass().getSimpleName().toString().contains("NoSuchElementException")){
+                throw new UserNotFoundException("Customer doesn't exist with "+id+" ID");
+            }
         }
         return customer;
     }
