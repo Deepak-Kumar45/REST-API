@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.spring.rest_api2.controller.ExceptionResponse;
 import com.spring.rest_api2.exception.UserNotFoundException;
 import com.spring.rest_api2.modal.Customer;
 
@@ -43,7 +45,7 @@ public class CustomerService {
             customer=customers.stream().filter(i->i.getCustomerId()==id).findFirst().get();
         } catch (Exception e) {
             if(e.getClass().getSimpleName().toString().contains("NoSuchElementException")){
-                throw new UserNotFoundException("Customer doesn't exist with "+id+" ID");
+                // throw new UserNotFoundException(new ExceptionResponse(HttpStatus.NOT_FOUND, e.getCause(), e.getMessage(), "Customer doesn't exist",new Date()));
             }
         }
         return customer;
