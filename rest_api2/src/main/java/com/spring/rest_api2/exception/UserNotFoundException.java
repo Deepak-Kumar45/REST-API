@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends RuntimeException{
 
-    private String errorMsg;
+    private String message;
 
     public UserNotFoundException(){}
-    
-    public UserNotFoundException(String errorMsg){
-        super(errorMsg);
-        this.errorMsg=errorMsg;
-        System.out.println(errorMsg);
+
+    public UserNotFoundException(String message){
+        super(message);
+        this.message=message;
+        System.out.println(message);
     }
 }
