@@ -14,7 +14,7 @@ public class CustomerNotFoundException extends RuntimeException{
     public CustomerNotFoundException(){}
 
     public CustomerNotFoundException(Date timestamp,String details,String message){
-        super(String.format("%s, %s, '%s'",message,details,timestamp));
+        super(String.format("%s, %s with %s ID",timestamp,details, message));
         this.resourceName=message;
         this.fieldName=details;
         this.fieldValue=timestamp;

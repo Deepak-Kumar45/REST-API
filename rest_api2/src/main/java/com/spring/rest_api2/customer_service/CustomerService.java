@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.rest_api2.exception.CustomerAlreadyExistsException;
 import com.spring.rest_api2.exception.CustomerNotFoundException;
 import com.spring.rest_api2.modal.Customer;
 
@@ -43,10 +44,24 @@ public class CustomerService {
             customer=customers.stream().filter(i->i.getCustomerId()==id).findFirst().get();
         } catch (Exception e) {
             if(e.getClass().getSimpleName().toString().contains("NoSuchElementException")){
-                throw new CustomerNotFoundException(new Date(), e.getMessage(), "Customer not found with "+id+" ID");
+                throw new CustomerNotFoundException(new Date(), e.getMessage(), ""+id);
             }
         }
         return customer;
     }
 
+
+    public Customer addCustomer(Customer customer){
+        Customer cust=customers.stream().filter(i->i.getName().equals(customer.getName())).findFirst().get();
+        if(cust==null){
+            ctr++;
+            customer.setCustomerId(ctr);
+            customers.add(customer);
+            return getCustomerById(ctr);
+        }else{
+            throw new CustomerAlreadyExistsException("Customer is already present with '"+customer.getName()+"' name.");
+        }   
+        return null;
+    }
+    
 }

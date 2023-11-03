@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCustomerAlreadyExists(CustomerAlreadyExistsException ex,WebRequest req){
+        ErrorResponse error=new ErrorResponse(new Date(), ex.getMessage(), req.getDescription(false));
+        return new ResponseEntity<ErrorResponse>(error, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> genericException(Exception ex,WebRequest req){
   ErrorResponse errorDetails = new ErrorResponse(new Date(), ex.getMessage(),
