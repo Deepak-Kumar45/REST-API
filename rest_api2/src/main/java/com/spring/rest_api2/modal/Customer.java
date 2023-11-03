@@ -35,6 +35,12 @@ public class Customer {
     public String getAddress() {
         return address;
     }
+    @Override
+    public String toString() {
+        return "Customer [customerId=" + customerId + ", name=" + name + ", address=" + address + ", coupon=" + coupon
+                + ", lastmodified=" + lastmodified + "]";
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }

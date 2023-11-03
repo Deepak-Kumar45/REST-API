@@ -3,6 +3,7 @@ package com.spring.rest_api2.customer_service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import jakarta.annotation.PreDestroy;
 public class CustomerService {
     
     private List<Customer> customers;
-    private static int ctr=105;
+    private static int ctr=106;
 
     @PostConstruct
     public void init(){
@@ -52,15 +53,31 @@ public class CustomerService {
 
 
     public Customer addCustomer(Customer customer){
-        Customer cust=customers.stream().filter(i->i.getName().equals(customer.getName())).findFirst().get();
-        if(cust==null){
-            ctr++;
-            customer.setCustomerId(ctr);
-            customers.add(customer);
-            return getCustomerById(ctr);
-        }else{
-            throw new CustomerAlreadyExistsException("Customer is already present with '"+customer.getName()+"' name.");
-        }   
+        Customer c=null;
+        try {
+            c=customers.stream().filter(i->i.getName().equals(customer.getName())).findFirst().get();
+        } catch (Exception e) {
+            if(e.getClass().getSimpleName().toString().contains("NoSuchElementException")){
+                ++ctr;
+                customer.setCustomerId(ctr);
+                customer.setLastmodified(new Date());
+                customers.add(customer);
+                c=customer;
+                return customer;
+            }else{
+
+            }
+        }
+        if(c!=null){
+            throw new CustomerAlreadyExistsException("Customer is already present with '"+customer.getName()+"' name. Please enter another name..");
+        }
+        return c;
+    }
+
+    public int deleteCustomer(int customerId){
+        Customer c=getCustomerById(customerId);
+        customers.remove(c);
+        return c.getCustomerId();
     }
     
 }
