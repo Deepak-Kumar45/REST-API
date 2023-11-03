@@ -3,8 +3,6 @@ package com.spring.rest_api2.customer_service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import org.springframework.stereotype.Service;
 
 import com.spring.rest_api2.exception.CustomerAlreadyExistsException;
