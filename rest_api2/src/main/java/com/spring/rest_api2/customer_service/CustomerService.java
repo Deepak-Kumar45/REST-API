@@ -61,7 +61,6 @@ public class CustomerService {
         }else{
             throw new CustomerAlreadyExistsException("Customer is already present with '"+customer.getName()+"' name.");
         }   
-        return null;
     }
     
 }
