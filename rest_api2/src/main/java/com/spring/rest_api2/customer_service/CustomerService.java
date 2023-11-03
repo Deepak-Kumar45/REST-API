@@ -79,5 +79,19 @@ public class CustomerService {
         customers.remove(c);
         return c.getCustomerId();
     }
+
+    public Customer updateData(int id,Customer customer){
+        Customer c=getCustomerById(id);
+        if(c!=null){
+            c.setCustomerId(id);
+            c.setName(customer.getName());
+            c.setAddress(customer.getAddress());
+            c.setCoupon(customer.isCoupon());
+            c.setLastmodified(new Date());
+            deleteCustomer(id);
+            customers.add(c);
+        }
+        return c;
+    }
     
 }
